@@ -24,23 +24,10 @@ export const dynamicRoutes: IRouter[] = [
     icon: 'iconfont tc-KingBI-dingshirenwu',
     children: [
       {
-        name: '二级导航1',
+        name: '列表页',
         path: 'customize',
         icon: 'iconfont tc-xiugaimima1',
         component: 'Customize',
-      },
-      {
-        name: '二级导航2',
-        path: 'visualModeling',
-        icon: 'iconfont tc-dls-table',
-        children: [
-          {
-            name: '三级导航',
-            path: 'pipe',
-            icon: 'iconfont tc-com-menu',
-            component: 'Pipeline/Tasks',
-          },
-        ],
       },
     ],
   },
