@@ -1,14 +1,9 @@
 import React from 'react'
+import { get } from 'lodash'
 import type { MenuProps } from 'antd'
 import { useDispatch } from 'react-redux'
-
 import { mainActions } from 'pages/Main/slice'
 import { config, dynamicRoutes, whiteRolelist } from './config'
-
-import { get } from 'lodash'
-
-// import { selectUsername } from 'pages/Main/slice/selector'
-
 export type MenuItem = Required<MenuProps>['items'][number]
 
 /**
@@ -16,24 +11,6 @@ export type MenuItem = Required<MenuProps>['items'][number]
  * @param {object} meta 当前路由自定义meta字段
  * @return {string} 需要跳转到其他页时，就返回一个该页的path路径，或返回resolve该路径的promise对象
  */
-const onRouteBefore = ({ pathname, meta }: any) => {
-  // console.log('pathname: ', pathname)
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  const dispatch = useDispatch()
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  // const username = useSelector(selectUsername)
-
-  dispatch(mainActions.updateRouteMeta(meta))
-  // if (!username) {
-  dispatch(
-    mainActions.updateUser({
-      username: localStorage.getItem('USER_NICKNAME') || '',
-    }),
-  )
-  // }
-
-  if (whiteRolelist.includes(pathname)) return
-}
 
 const lazy2Compont = (
   factory: () => Promise<{

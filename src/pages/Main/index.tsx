@@ -1,9 +1,7 @@
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import Menus from './Menus'
-import { Layout } from 'antd'
-
+import { Layout, theme } from 'antd'
 import { selectRouteMeta } from 'pages/Main/slice/selector'
 import styled from 'styled-components'
 import {
@@ -13,21 +11,24 @@ import {
 } from 'assets/styles/styledcom/StyleConstants'
 import { useSelector, useDispatch } from 'react-redux'
 import { mainActions } from 'pages/Main/slice'
-import SiteHeader from 'components/SiteHeaders'
+import SiteHeader from 'components/Headers'
 import { selectCollapsed } from './slice/selector'
 const { Content, Sider } = Layout
+const { useToken } = theme
 
 export const MainPage: React.FC = () => {
   const routeMeta = useSelector(selectRouteMeta)
   const collapsed = useSelector(selectCollapsed)
   const dispatch = useDispatch()
+  const token = useToken()
 
   const setCollapsed = useCallback(
     () => dispatch(mainActions.updateCollapsed()),
     [dispatch],
   )
+
   return (
-    <RootContainer collapsed={collapsed}>
+    <RootContainer collapsed={collapsed} token={token}>
       <SiteHeader />
       <div className="rootContainer">
         <Layout hasSider>
@@ -36,32 +37,44 @@ export const MainPage: React.FC = () => {
             width={200}
             className="sider"
             collapsible
-            trigger={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            collapsedWidth={48}
+            // trigger={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            // trigger={collapsed ? <MenuFoldOutlined /> : SiderFooter}
+            trigger={null}
+            // collapsedWidth={48}
+            collapsedWidth={56}
             collapsed={collapsed}
             onCollapse={setCollapsed}
           >
             <div className="layoutSiderContent">
-              {/* {!collapsed ? (
-                <div className="logo">
-                  <Link to="/">
-                    <div className="normal">
-                      <img height={32} src={logo} alt="" />
-                      <span className="title">紫东太初</span>
-                    </div>
-                  </Link>
-                </div>
-              ) : (
-                <div className="thin">
-                  <Link to="/">
-                    <img height={32} src={logo} alt="" />
-                  </Link>
-                </div>
-              )} */}
-
               <div className="h60"></div>
               <div className="menu">
                 <Menus />
+              </div>
+
+              <div className="sideFooter">
+                {!collapsed ? (
+                  <div className="around wrapper">
+                    <div
+                      className="iconfont tc-KingBI-shouqi cursor-pointer"
+                      onClick={setCollapsed}
+                    ></div>
+                    <div
+                      className="logo"
+                      style={{
+                        visibility: 'hidden',
+                      }}
+                    >
+                      logo
+                    </div>
+                  </div>
+                ) : (
+                  <div className="center wrapper ">
+                    <div
+                      className="iconfont tc-KingBI-zhankai cursor-pointer"
+                      onClick={setCollapsed}
+                    ></div>
+                  </div>
+                )}
               </div>
             </div>
           </Sider>
@@ -76,10 +89,10 @@ export const MainPage: React.FC = () => {
                 overflowY: 'overlay' as any,
               }}
             >
-              <div className="h-14"></div>
+              <div className="h-[54px]"></div>
               <div
                 className="w-full"
-                style={{ minHeight: 'calc(100% - 56px)' }}
+                style={{ minHeight: 'calc(100% - 54px)', minWidth: '980px' }}
               >
                 <Outlet />
               </div>
@@ -93,7 +106,11 @@ export const MainPage: React.FC = () => {
 
 export default MainPage
 
-const RootContainer = styled.div<{ collapsed: boolean }>`
+const RootContainer = styled.div<{ collapsed: boolean; token: any }>`
+  .common_text_button {
+    color: ${props => props.token.token.colorPrimary}!important;
+    cursor: pointer;
+  }
   .rootContainer {
     position: absolute;
     display: flex;
@@ -103,12 +120,10 @@ const RootContainer = styled.div<{ collapsed: boolean }>`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #1f1f1f;
     :global(.ant-layout-sider-trigger) {
       box-shadow: inset 0px 1px 0px #f0f0f0;
     }
     .sider {
-      /* box-shadow: 8px 0px 12px rgba(25, 70, 185, 0.1); */
       box-shadow: 1px 0px 0px rgba(25, 70, 185, 0.1);
       position: absolute;
       left: 0;
@@ -117,7 +132,7 @@ const RootContainer = styled.div<{ collapsed: boolean }>`
       z-index: 2;
     }
     .anchor {
-      width: ${props => (props.collapsed ? '48px' : '200px')};
+      width: ${props => (props.collapsed ? '56px' : '200px')};
       transition: width 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     }
   }
@@ -168,6 +183,40 @@ const RootContainer = styled.div<{ collapsed: boolean }>`
       height: 100%;
       overflow-y: auto;
       overflow-x: hidden;
+    }
+    .sideFooter {
+      height: ${SPACE_TIMES(13)};
+      overflow: hidden;
+      border-top: 1px solid rgb(242, 243, 255);
+      /* background: linear-gradient(
+        to right,
+        rgb(242, 243, 255),
+        rgb(0, 82, 217, 0.2)
+      ); */
+
+      .wrapper {
+        display: flex;
+        height: 100%;
+        align-items: center;
+        .logo {
+          perspective: 1000px;
+          img {
+            position: relative;
+            top: 16px;
+            right: -12px;
+            filter: blur(4px);
+            transform: skewY(15deg);
+            height: 78px;
+          }
+        }
+      }
+
+      .around {
+        justify-content: space-around;
+      }
+      .center {
+        justify-content: center;
+      }
     }
   }
 `

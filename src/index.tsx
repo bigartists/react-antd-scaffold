@@ -17,9 +17,7 @@ import 'react-app-polyfill/stable'
 import 'assets/styles/css/tw.css'
 import 'assets/styles/css/index.css'
 import 'antd/dist/reset.css'
-
 dayjs.locale('zh-cn')
-
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development'
 export const store = configureStore(appCombineReducers)
@@ -33,16 +31,12 @@ root.render(
           <ConfigProvider
             locale={zhCN}
             theme={{
-              // algorithm: theme.darkAlgorithm,
-              // algorithm: theme.compactAlgorithm,
-              // algorithm: theme.defaultAlgorithm,
-
               token: {
                 colorPrimary: '#1946b9',
                 fontSize: 14,
                 borderRadius: 4,
-                // wireframe: true,
               },
+              // algorithm: theme.darkAlgorithm,
             }}
           >
             <Router>

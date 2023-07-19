@@ -10,30 +10,15 @@ const defaultEntryName = 'main'
 const rewireEntries = [] // 多入口
 
 const proxyConfigPath = path.resolve(__dirname, '.proxyIPConfig.js')
-const proxyConf = fs.existsSync(proxyConfigPath) ? require(proxyConfigPath) : {}
+const proxyConf = fs.existsSync(proxyConfigPath)
+  ? require(proxyConfigPath)
+  : f => f
 
 module.exports = {
-  devServer: {
-    hot: true,
-    proxy: {
-      ...proxyConf,
-    },
-    historyApiFallback: {
-      rewrites: [{ from: /^\/$/, to: '/index.html' }],
-    },
-  },
-  rules: [
-    {
-      test: /node_modules\/monaco-editor/,
-      use: {
-        loader: 'babel-loader',
-        // if you include your babel config here,
-        // you don’t need the `babel.config.json` file
-        options: { presets: ['@babel/preset-env'] },
-      },
-    },
-  ],
   babel: {
+    loaderOptions: {
+      cacheDirectory: true,
+    },
     plugins: [
       [
         'babel-plugin-styled-components',
@@ -96,7 +81,7 @@ module.exports = {
           ),
           chunkFilename: 'static/js/[name].[contenthash:8].js',
         },
-        // path: path.resolve(__dirname, 'dist'), // 修改输出文件目录
+        // path: path.resolve(__dirname, 'dist'),
         publicPath: '/',
       }
 
@@ -105,7 +90,6 @@ module.exports = {
       })
       defaultEntryHTMLPlugin.map(html => (html.chunks = [defaultEntryName]))
 
-      // config.entry is not an array in Create React App 4
       if (!Array.isArray(webpackConfig.entry)) {
         webpackConfig.entry = [webpackConfig.entry]
       }
@@ -137,6 +121,13 @@ module.exports = {
       }
 
       return webpackConfig
+    },
+  },
+  devServer: {
+    hot: true,
+    // proxy: proxyConf('dev'),
+    historyApiFallback: {
+      rewrites: [{ from: /^\/$/, to: '/index.html' }],
     },
   },
 }

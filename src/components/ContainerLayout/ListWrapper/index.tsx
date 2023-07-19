@@ -2,7 +2,7 @@ import { Pagination } from 'antd'
 import type { PaginationProps } from 'antd'
 import { SPACE_TIMES, WHITE } from 'assets/styles/styledcom/StyleConstants'
 import { selectCollapsed } from 'pages/Main/slice/selector'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 interface IContainerListWrapper {
@@ -10,6 +10,8 @@ interface IContainerListWrapper {
   pagination?: PaginationProps
   hasNoPagination?: boolean
   hasNoFooter?: boolean
+  onPageChange?: React.Dispatch<React.SetStateAction<number>>
+  onPagaSizeChange?: React.Dispatch<React.SetStateAction<number>>
 }
 interface IWrapperPagination {
   pagination?: PaginationProps
@@ -20,25 +22,29 @@ function ContainerListWrapper({
   pagination,
   hasNoFooter = false,
   hasNoPagination = false,
+  onPageChange,
+  onPagaSizeChange,
 }: IContainerListWrapper) {
   const collapsed = useSelector(selectCollapsed)
-  // const paginationProps: React.ReactNode = useMemo(() => {
-  //   if (!hasNoPagination && typeof pagination === 'object') {
-  //     return (
-  //       <>
-  //         <div className="showTotal">第1-20条 / 共 101 项数据</div>
-  //         <Pagination showQuickJumper {...pagination} />
-  //       </>
-  //     )
-  //   }
-  //   return []
-  // }, [hasNoPagination, pagination])
+
+  useEffect(() => {
+    if (onPageChange && pagination) {
+      const { total, current, pageSize } = pagination
+      if (pageSize && current && total) {
+        const rangeStart = pageSize * (current - 1) + 1
+        if (rangeStart > total) {
+          onPageChange(1)
+        }
+      }
+    }
+  }, [onPageChange, pagination])
+
   return (
     <Wrapper collapsed={collapsed}>
       {children}
       {!hasNoFooter && (
         <>
-          <div style={{ height: '40px' }}></div>
+          <div style={{ height: '28px' }}></div>
           <footer>
             {!hasNoPagination && (
               <WrapperPagination pagination={pagination}></WrapperPagination>
@@ -62,7 +68,13 @@ export const WrapperPagination = React.memo(
       : [0, 0]
 
     return (
-      <div className="w-full h-full flex items-center justify-between">
+      <div
+        className="w-full h-full flex items-center justify-between"
+        style={{
+          minWidth: '980px',
+          // backgroundColor: '#fff',
+        }}
+      >
         <div className="showTotal">
           第{range[0]}-{range[1]}条 / 共 {total} 项数据
         </div>
@@ -78,12 +90,26 @@ interface IFooter {
 
 const Wrapper = styled.div<IFooter>`
   .tool {
-    text-align: right;
+    display: flex;
+    justify-content: end;
     background-color: ${WHITE};
     height: ${SPACE_TIMES(12)};
     line-height: ${SPACE_TIMES(12)};
     padding-right: ${SPACE_TIMES(6)};
   }
+
+  .toolbar {
+    padding: 8px 24px 8px 10px;
+    background-color: ${WHITE};
+    display: flex;
+    justify-content: space-between;
+
+    .ant-select-selection-overflow {
+      max-height: 30px;
+      overflow: hidden;
+    }
+  }
+
   .table {
     width: 100%;
     height: 100%;
@@ -93,18 +119,21 @@ const Wrapper = styled.div<IFooter>`
     display: flex;
     // justify-content: space-between;
     // align-items: center;
+    background: ${WHITE};
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.65),
+      rgb(242, 243, 255)
+    );
     width: ${props =>
-      props.collapsed ? 'calc(100% - 96px)' : 'calc(100% - 248px)'};
+      props.collapsed ? 'calc(100% - 104px)' : 'calc(100% - 248px)'};
     position: fixed;
-    height: ${SPACE_TIMES(16)};
+    height: ${SPACE_TIMES(13)};
     right: ${SPACE_TIMES(6)};
     bottom: 0;
     z-index: 1;
-    // display: flex;
-    // align-items: center;
     padding: 0 24px;
-    // line-height: 44px;
-    background: ${WHITE};
+
     box-shadow: 0px -8px 12px rgba(25, 70, 185, 0.1);
     transition: width 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
     .showTotal {
