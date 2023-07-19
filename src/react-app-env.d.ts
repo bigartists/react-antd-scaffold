@@ -6,3 +6,4 @@
 
 declare module '*.css'
 declare module '*.less'
+declare module '*.mp4'
