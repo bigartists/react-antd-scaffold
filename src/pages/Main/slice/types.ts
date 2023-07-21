@@ -4,8 +4,8 @@ export interface UserState {
   username: string
   loginLoading: boolean
   collapsed: boolean
-  storageMap: Object
   routeMeta: IRouterMeta
+  theme: 'light' | 'dark'
 }
 
 export interface User {

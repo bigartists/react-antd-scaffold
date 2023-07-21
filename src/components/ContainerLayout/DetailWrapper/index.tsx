@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { WHITE, SPACE_TIMES } from 'assets/styles/styledcom/StyleConstants'
+import { SPACE_TIMES } from 'assets/styles/styledcom/StyleConstants'
 import { useSelector } from 'react-redux'
 import { selectCollapsed } from 'pages/Main/slice/selector'
 import React, { memo, useMemo } from 'react'
@@ -84,7 +84,6 @@ const Footer = styled.footer<IFooter>`
   align-items: center;
   padding-left: 12%;
   line-height: 44px;
-  background: ${WHITE};
   box-shadow: 0px -8px 12px -8px rgba(25, 70, 185, 0.1);
   transition: width 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 `

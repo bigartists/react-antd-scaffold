@@ -1,12 +1,17 @@
+import { GlobalToken } from 'antd'
 import styled from 'styled-components'
 
-const CustomTabsStyle = styled.div`
+interface IToken {
+  token: GlobalToken
+}
+
+const CustomTabsStyle = styled.div<IToken>`
   .ant-tabs-top > .ant-tabs-nav {
-    background: #ffffff;
+    background-color: ${props => props.token?.colorBgContainer};
     margin-bottom: 0;
   }
   .ant-tabs-nav {
-    background: #ffffff;
+    background-color: ${props => props.token?.colorBgContainer};
     margin-bottom: 0;
   }
   .ant-tabs-tab {

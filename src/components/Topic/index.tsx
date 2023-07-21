@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { SPACE_TIMES, WHITE } from 'assets/styles/styledcom/StyleConstants'
+import { SPACE_TIMES } from 'assets/styles/styledcom/StyleConstants'
 import bgVedio from 'assets/vedio/bg.mp4'
 import { useEffect, useRef } from 'react'
 interface ITopic {
@@ -46,12 +46,10 @@ function Topic({ topic, description }: ITopic) {
 const Wrapper = styled.article`
   height: ${SPACE_TIMES(64)};
   mix-blend-mode: normal;
-  border: 1px solid ${WHITE};
   display: flex;
   flex-direction: column;
   /* background: linear-gradient(180deg, #f0f5fb, #ffffff); */
   background-size: 800px 100%;
-  background-color: #fff;
   position: relative;
   .panel {
     position: absolute;
@@ -62,13 +60,10 @@ const Wrapper = styled.article`
     padding-left: ${SPACE_TIMES(18)};
     .category {
       font-size: ${SPACE_TIMES(6)};
-      /* color: #1a1a1a; */
-      color: white;
       font-weight: 700;
     }
     .desc {
       font-size: 14px;
-      color: #999999;
       margin-top: ${SPACE_TIMES(3)};
       width: 476px;
     }

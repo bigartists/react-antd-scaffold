@@ -9,6 +9,7 @@ import { BLUE } from 'assets/styles/styledcom/StyleConstants'
 const Menus = () => {
   const location = useLocation()
   const navigate = useNavigate()
+
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
   const [openKeys, setOpenKeys] = useState<string[]>([])
 
@@ -60,7 +61,7 @@ const Menus = () => {
         <Menu
           mode="inline"
           items={menuConfig}
-          style={{ height: '100%', userSelect: 'none' }}
+          style={{ height: '100%', userSelect: 'none', borderRight: 0 }}
           openKeys={openKeys}
           onSelect={handleSelect}
           onOpenChange={onOpenChange}
@@ -73,28 +74,21 @@ const Menus = () => {
 
 const Wrapper = styled.div`
   .ant-menu {
-    background-color: #fff;
-    border-right: 1px solid #f0f0f0;
+    /* border-right: 1px solid #f0f0f0; */
     .ant-menu-item {
       border-radius: 3px;
       font-size: 14px;
       &:not(.ant-menu-item-selected):hover {
-        color: rgb(0, 82, 217);
-        background-color: rgb(242, 243, 255);
+        color: ${BLUE};
       }
       &.ant-menu-item-active {
-        color: rgb(0, 82, 217);
-        background-color: rgb(242, 243, 255);
+        color: ${BLUE};
       }
 
       &.ant-menu-item-selected {
-        /* background-color: rgb(0, 82, 217); */
         background-color: ${BLUE};
         color: #fff;
       }
-    }
-    .ant-menu-sub.ant-menu-inline {
-      background-color: #fff;
     }
   }
 `
