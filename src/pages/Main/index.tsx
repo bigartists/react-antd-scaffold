@@ -1,26 +1,25 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { Outlet } from 'react-router-dom'
 import Menus from './Menus'
-import { Layout, theme } from 'antd'
-import { selectRouteMeta } from 'pages/Main/slice/selector'
+import { ConfigProvider, GlobalToken, Layout, Switch, theme } from 'antd'
+import { selectRouteMeta, selectTheme } from 'pages/Main/slice/selector'
 import styled from 'styled-components'
-import {
-  BLUE,
-  logo_text_color,
-  SPACE_TIMES,
-} from 'assets/styles/styledcom/StyleConstants'
+import { SPACE_TIMES } from 'assets/styles/styledcom/StyleConstants'
+import zhCN from 'antd/es/locale/zh_CN'
 import { useSelector, useDispatch } from 'react-redux'
 import { mainActions } from 'pages/Main/slice'
 import SiteHeader from 'components/Headers'
 import { selectCollapsed } from './slice/selector'
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 const { Content, Sider } = Layout
 const { useToken } = theme
 
 export const MainPage: React.FC = () => {
   const routeMeta = useSelector(selectRouteMeta)
   const collapsed = useSelector(selectCollapsed)
+  const rootTheme = useSelector(selectTheme)
   const dispatch = useDispatch()
-  const token = useToken()
+  const { token } = theme.useToken()
 
   const setCollapsed = useCallback(
     () => dispatch(mainActions.updateCollapsed()),
@@ -28,87 +27,112 @@ export const MainPage: React.FC = () => {
   )
 
   return (
-    <RootContainer collapsed={collapsed} token={token}>
-      <SiteHeader />
-      <div className="rootContainer">
-        <Layout hasSider>
-          <Sider
-            theme="light"
-            width={200}
-            className="sider"
-            collapsible
-            // trigger={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            // trigger={collapsed ? <MenuFoldOutlined /> : SiderFooter}
-            trigger={null}
-            // collapsedWidth={48}
-            collapsedWidth={56}
-            collapsed={collapsed}
-            onCollapse={setCollapsed}
-          >
-            <div className="layoutSiderContent">
-              <div className="h60"></div>
-              <div className="menu">
-                <Menus />
-              </div>
-
-              <div className="sideFooter">
-                {!collapsed ? (
-                  <div className="around wrapper">
-                    <div
-                      className="iconfont tc-KingBI-shouqi cursor-pointer"
-                      onClick={setCollapsed}
-                    ></div>
-                    <div
-                      className="logo"
-                      style={{
-                        visibility: 'hidden',
-                      }}
-                    >
-                      logo
-                    </div>
-                  </div>
-                ) : (
-                  <div className="center wrapper ">
-                    <div
-                      className="iconfont tc-KingBI-zhankai cursor-pointer"
-                      onClick={setCollapsed}
-                    ></div>
-                  </div>
-                )}
-              </div>
-            </div>
-          </Sider>
-          <div className="anchor"></div>
-          <Layout className="mainContent">
-            <Content
-              id="app-container"
-              className="site-layout-background"
-              style={{
-                padding: routeMeta.layout === false ? 0 : 24,
-                minHeight: 280,
-                overflowY: 'overlay' as any,
-              }}
+    <ConfigProvider
+      locale={zhCN}
+      theme={{
+        token: {
+          colorPrimary: '#1946b9',
+          fontSize: 14,
+          borderRadius: 4,
+        },
+        algorithm:
+          rootTheme === 'light' ? theme.defaultAlgorithm : theme.darkAlgorithm,
+      }}
+    >
+      <RootContainer collapsed={collapsed} token={token} rootTheme={rootTheme}>
+        <SiteHeader />
+        <div className="rootContainer">
+          <Layout hasSider>
+            <Sider
+              theme="light"
+              width={200}
+              className="sider"
+              collapsible
+              trigger={null}
+              collapsedWidth={56}
+              collapsed={collapsed}
+              onCollapse={setCollapsed}
             >
-              <div className="h-[54px]"></div>
-              <div
-                className="w-full"
-                style={{ minHeight: 'calc(100% - 54px)', minWidth: '980px' }}
-              >
-                <Outlet />
+              <div className="layoutSiderContent">
+                <div className="h60"></div>
+                <div className="menu">
+                  <Menus />
+                </div>
+
+                <div className="sideFooter">
+                  {!collapsed ? (
+                    <div className="around wrapper">
+                      <div
+                        className="iconfont tc-KingBI-shouqi cursor-pointer fold"
+                        onClick={setCollapsed}
+                      ></div>
+                      {/* <MenuFoldOutlined
+                        onClick={setCollapsed}
+                        className="fold"
+                      /> */}
+
+                      <Switch
+                        checkedChildren="明亮"
+                        unCheckedChildren="暗黑"
+                        onChange={e => {
+                          console.log(e)
+                          dispatch(
+                            mainActions.updateTheme(e ? 'light' : 'dark'),
+                          )
+                        }}
+                        defaultChecked
+                      />
+                    </div>
+                  ) : (
+                    <div className="center wrapper ">
+                      <div
+                        className="iconfont tc-KingBI-zhankai cursor-pointer fold"
+                        onClick={setCollapsed}
+                      ></div>
+                      {/* <MenuUnfoldOutlined
+                        onClick={setCollapsed}
+                        className="fold"
+                      /> */}
+                    </div>
+                  )}
+                </div>
               </div>
-            </Content>
+            </Sider>
+            <div className="anchor"></div>
+            <Layout className="mainContent">
+              <Content
+                id="app-container"
+                className="site-layout-background"
+                style={{
+                  padding: routeMeta.layout === false ? 0 : 24,
+                  minHeight: 280,
+                  overflowY: 'overlay' as any,
+                }}
+              >
+                <div className="h-[54px]"></div>
+                <div
+                  className="w-full"
+                  style={{ minHeight: 'calc(100% - 54px)', minWidth: '980px' }}
+                >
+                  <Outlet />
+                </div>
+              </Content>
+            </Layout>
           </Layout>
-        </Layout>
-      </div>
-    </RootContainer>
+        </div>
+      </RootContainer>
+    </ConfigProvider>
   )
 }
 
 export default MainPage
 
-const RootContainer = styled.div<{ collapsed: boolean; token: any }>`
+const RootContainer = styled.div<{
+  collapsed: boolean
+  token: GlobalToken
+  rootTheme: 'light' | 'dark'
+}>`
   .common_text_button {
-    color: ${props => props.token.token.colorPrimary}!important;
     cursor: pointer;
   }
   .rootContainer {
@@ -152,17 +176,14 @@ const RootContainer = styled.div<{ collapsed: boolean; token: any }>`
       line-height: ${SPACE_TIMES(11)};
       padding-left: ${SPACE_TIMES(4)};
       margin-bottom: ${SPACE_TIMES(2)};
-      color: ${BLUE};
+
       font-size: ${SPACE_TIMES(5)};
       cursor: pointer;
       justify-content: space-between;
       align-items: center;
       user-select: none;
-      a {
-        color: ${BLUE};
-      }
+
       .title {
-        color: ${logo_text_color};
         font-size: ${SPACE_TIMES(4.5)};
         margin-left: ${SPACE_TIMES(3)};
 
@@ -187,28 +208,17 @@ const RootContainer = styled.div<{ collapsed: boolean; token: any }>`
     .sideFooter {
       height: ${SPACE_TIMES(13)};
       overflow: hidden;
-      border-top: 1px solid rgb(242, 243, 255);
+      border-top: 0.5px solid ${props => props.token.colorBorder};
+      /* border-top: 1px solid ${props => props.token.controlTmpOutline}; */
       /* background: linear-gradient(
         to right,
         rgb(242, 243, 255),
         rgb(0, 82, 217, 0.2)
       ); */
-
       .wrapper {
         display: flex;
         height: 100%;
         align-items: center;
-        .logo {
-          perspective: 1000px;
-          img {
-            position: relative;
-            top: 16px;
-            right: -12px;
-            filter: blur(4px);
-            transform: skewY(15deg);
-            height: 78px;
-          }
-        }
       }
 
       .around {
@@ -217,6 +227,14 @@ const RootContainer = styled.div<{ collapsed: boolean; token: any }>`
       .center {
         justify-content: center;
       }
+    }
+
+    .fold {
+      font-size: 16px;
+      color: ${props =>
+        props.rootTheme === 'light'
+          ? props.token.colorText
+          : props.token.colorBgBase};
     }
   }
 `

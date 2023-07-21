@@ -1,4 +1,4 @@
-import { Tabs } from 'antd'
+import { Tabs, theme } from 'antd'
 import React, { memo } from 'react'
 import Wrapper from 'components/ContainerLayout/ListWrapper'
 import Topic from 'components/Topic'
@@ -6,11 +6,12 @@ import Task from './Task'
 import CustomTabsStyle from 'config/antdConf/CustomTabsStyle'
 
 const PipelineTask: React.FC = memo(props => {
+  const { token } = theme.useToken()
   return (
     <Wrapper hasNoFooter>
       <Topic topic="this is a topic" description="this is a topic desc" />
 
-      <CustomTabsStyle>
+      <CustomTabsStyle token={token}>
         <Tabs
           defaultActiveKey="1"
           onChange={(key: string) => {

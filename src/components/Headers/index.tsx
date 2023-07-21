@@ -1,22 +1,17 @@
-import { Dropdown, Space } from 'antd'
+import { Dropdown, GlobalToken, Space, theme } from 'antd'
 import styled from 'styled-components'
 import { useSelector } from 'react-redux'
 import { DownOutlined } from '@ant-design/icons'
 import { Link, useNavigate } from 'react-router-dom'
-import {
-  BLUE,
-  FONT_SIZE_12,
-  G40,
-  G60,
-  logo_text_color,
-  SPACE_TIMES,
-} from 'assets/styles/styledcom/StyleConstants'
-import { selectUsername } from 'pages/Main/slice/selector'
+import { SPACE_TIMES } from 'assets/styles/styledcom/StyleConstants'
+import { selectTheme, selectUsername } from 'pages/Main/slice/selector'
 const docLink = `https://github.com/mozhehanghui/react-antd-scaffold`
 
 export default () => {
   const navigate = useNavigate()
   const username = useSelector(selectUsername)
+  const { token } = theme.useToken()
+  const rootTheme = useSelector(selectTheme)
 
   const logout = () => {
     navigate('/signin')
@@ -34,7 +29,7 @@ export default () => {
   ]
 
   return (
-    <LayoutHeader>
+    <LayoutHeader token={token} rootTheme={rootTheme}>
       <div className="nav">
         <div className="logo">
           <Link to="/">
@@ -71,7 +66,12 @@ export default () => {
   )
 }
 
-const LayoutHeader = styled.div`
+interface ILayoutHeader {
+  token: GlobalToken
+  rootTheme: 'light' | 'dark'
+}
+
+const LayoutHeader = styled.div<ILayoutHeader>`
   position: fixed;
   top: 0;
   left: 0;
@@ -90,6 +90,15 @@ const LayoutHeader = styled.div`
     rgba(255, 255, 255, 0.65),
     rgb(242, 243, 255)
   );
+
+  background: ${props =>
+    props.rootTheme === 'light'
+      ? 'linear-gradient(to right, rgba(255, 255, 255, 0.65), rgb(242, 243, 255))'
+      : 'linear-gradient(to right, rgba(0, 0, 0, 0.65), rgb(0, 0, 0))'};
+
+  background-color: ${props =>
+    props.rootTheme === 'dark' ? props.token?.colorBgContainer : ''};
+
   .nav {
     flex: 1;
     margin-left: ${SPACE_TIMES(2)};
@@ -100,18 +109,17 @@ const LayoutHeader = styled.div`
       line-height: ${SPACE_TIMES(11)};
       padding-left: ${SPACE_TIMES(4)};
       margin-bottom: ${SPACE_TIMES(2)};
-      color: ${BLUE};
+
       font-size: ${SPACE_TIMES(5)};
       cursor: pointer;
       // justify-content: space-between;
       align-items: center;
       user-select: none;
       a {
-        color: ${BLUE};
         text-decoration: none;
       }
       .title {
-        color: ${logo_text_color};
+        color: ${props => props.token?.colorText};
         font-size: ${SPACE_TIMES(4.5)};
         margin-left: ${SPACE_TIMES(3)};
         text-decoration: none;
@@ -127,15 +135,14 @@ const LayoutHeader = styled.div`
     padding: 0 ${SPACE_TIMES(4)} 0 0;
     flex: 0 0 auto;
     display: flex;
-    color: ${G40};
+    color: ${props => props.token?.colorTextSecondary};
     justify-content: space-around;
     align-items: center;
     a {
-      color: ${G60};
+      color: ${props => props.token?.colorTextSecondary};
     }
     .username {
-      font-size: ${FONT_SIZE_12};
-      color: ${G60};
+      color: ${props => props.token?.colorTextSecondary};
       font-weight: 400;
       user-select: none;
       cursor: pointer;
