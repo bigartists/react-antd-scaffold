@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { DownOutlined } from '@ant-design/icons'
 import { Link, useNavigate } from 'react-router-dom'
 import { SPACE_TIMES } from 'assets/styles/styledcom/StyleConstants'
-import { selectTheme, selectUsername } from 'pages/Main/slice/selector'
+import { selectTheme, selectUsername } from 'pages/Layout/slice/selector'
 const docLink = `https://github.com/mozhehanghui/react-antd-scaffold`
 
 export default () => {

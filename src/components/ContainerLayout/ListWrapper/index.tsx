@@ -1,7 +1,7 @@
 import { Pagination, theme } from 'antd'
 import type { GlobalToken, PaginationProps } from 'antd'
 import { SPACE_TIMES } from 'assets/styles/styledcom/StyleConstants'
-import { selectCollapsed, selectTheme } from 'pages/Main/slice/selector'
+import { selectCollapsed, selectTheme } from 'pages/Layout/slice/selector'
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'

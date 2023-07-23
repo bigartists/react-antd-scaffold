@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { SPACE_TIMES } from 'assets/styles/styledcom/StyleConstants'
 import { useSelector } from 'react-redux'
-import { selectCollapsed } from 'pages/Main/slice/selector'
+import { selectCollapsed } from 'pages/Layout/slice/selector'
 import React, { memo, useMemo } from 'react'
 import {
   generateBreadcrumbs,

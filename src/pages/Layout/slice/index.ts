@@ -1,12 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { login } from './thunk'
 import { User, UserState } from './types'
-import { IRouterMeta } from 'routes/config'
 export const initialState: UserState = {
   username: '',
   loginLoading: false,
   collapsed: false,
-  routeMeta: {},
   theme: 'light',
 }
 
@@ -21,12 +19,7 @@ const mainSlice = createSlice({
     updateUser(state, { payload }: PayloadAction<User>) {
       state.username = payload.username
     },
-    updateRouteMeta(state, { payload }: PayloadAction<IRouterMeta>) {
-      const collapsed = !!sessionStorage.getItem('collapsed')
 
-      state.routeMeta = payload
-      state.collapsed = collapsed || !!payload?.collapsed
-    },
     updateTheme(state, { payload }: PayloadAction<'light' | 'dark'>) {
       state.theme = payload
     },

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { ConfigProvider, theme } from 'antd'
 import App from 'pages/App'
 import appCombineReducers from 'redux/reducer'
-import { HashRouter as Router } from 'react-router-dom'
+
 import { Inspector } from 'react-dev-inspector'
 import { HelmetProvider } from 'react-helmet-async'
 import { Provider } from 'react-redux'
@@ -27,9 +27,7 @@ root.render(
     <Provider store={store}>
       <HelmetProvider>
         <React.StrictMode>
-          <Router>
-            <App />
-          </Router>
+          <App />
         </React.StrictMode>
       </HelmetProvider>
     </Provider>

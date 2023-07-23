@@ -2,12 +2,12 @@ import React, { useCallback } from 'react'
 import { Outlet } from 'react-router-dom'
 import Menus from './Menus'
 import { ConfigProvider, GlobalToken, Layout, Switch, theme } from 'antd'
-import { selectRouteMeta, selectTheme } from 'pages/Main/slice/selector'
+import { selectTheme } from 'pages/Layout/slice/selector'
 import styled from 'styled-components'
 import { SPACE_TIMES } from 'assets/styles/styledcom/StyleConstants'
 import zhCN from 'antd/es/locale/zh_CN'
 import { useSelector, useDispatch } from 'react-redux'
-import { mainActions } from 'pages/Main/slice'
+import { mainActions } from 'pages/Layout/slice'
 import SiteHeader from 'components/Headers'
 import { selectCollapsed } from './slice/selector'
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
@@ -15,7 +15,6 @@ const { Content, Sider } = Layout
 const { useToken } = theme
 
 export const MainPage: React.FC = () => {
-  const routeMeta = useSelector(selectRouteMeta)
   const collapsed = useSelector(selectCollapsed)
   const rootTheme = useSelector(selectTheme)
   const dispatch = useDispatch()
@@ -104,7 +103,7 @@ export const MainPage: React.FC = () => {
                 id="app-container"
                 className="site-layout-background"
                 style={{
-                  padding: routeMeta.layout === false ? 0 : 24,
+                  padding: 24,
                   minHeight: 280,
                   overflowY: 'overlay' as any,
                 }}

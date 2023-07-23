@@ -1,4 +1,4 @@
-import { defaultLazyLoad } from 'utils/loadable'
+import { defaultLazyLoad } from 'routes/loadable'
 
 export const MainPageLazy = defaultLazyLoad(
   () => import(/* webpackChunkName: "mainPage" */ './index'),
