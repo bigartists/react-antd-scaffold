@@ -1,7 +1,11 @@
-import { useRoutes } from 'react-router-dom'
-import { routerConfig } from 'routes'
+import { RouterProvider, useRoutes } from 'react-router-dom'
+import { routerList } from 'routes/RouteConfig'
 
 export default function App() {
-  const routeList = useRoutes(routerConfig)
-  return routeList
+  return (
+    <RouterProvider
+      router={routerList}
+      fallbackElement={<p>页面加载中...</p>}
+    />
+  )
 }

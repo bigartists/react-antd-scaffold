@@ -10,11 +10,6 @@ export const selectCollapsed = createSelector(
   state => state.collapsed,
 )
 
-export const selectRouteMeta = createSelector(
-  [selectDomain],
-  state => state.routeMeta,
-)
-
 export const selectUsername = createSelector(
   [selectDomain],
   state => state.username,

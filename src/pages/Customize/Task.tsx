@@ -19,7 +19,7 @@ import React, { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Wrapper from 'components/ContainerLayout/ListWrapper'
 import { ITask } from './types'
-import { uuid } from 'utils/utils'
+import { v4 as uuid } from 'uuid'
 import { datefmtFn, durationTs } from 'utils/format'
 
 const CustomizeTask: React.FC = memo(props => {
@@ -49,12 +49,12 @@ const CustomizeTask: React.FC = memo(props => {
         const displayStatus = record.task_name
         return (
           <Space size="middle">
-            <a key={uuid(8, 16)} onClick={log(record.id)}>
+            <a key={uuid()} onClick={log(record.id)}>
               编辑
             </a>
 
             <Popconfirm title="确定重跑该任务吗">
-              <a key={uuid(8, 16)}>查看</a>
+              <a key={uuid()}>查看</a>
             </Popconfirm>
           </Space>
         )
@@ -88,7 +88,7 @@ const CustomizeTask: React.FC = memo(props => {
   const data = React.useMemo(() => {
     return new Array(50)
       .fill({
-        id: uuid(8, 16),
+        id: uuid(),
         task_name: '任务名称',
       })
       .map(task => {
@@ -111,7 +111,7 @@ const CustomizeTask: React.FC = memo(props => {
       <div className="tool">{operations}</div>
       <article className="w-full h-full">
         <Table
-          rowKey={record => uuid(8, 16)}
+          rowKey={record => uuid()}
           dataSource={data}
           columns={columns}
           pagination={false}

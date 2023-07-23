@@ -1,6 +1,6 @@
 import { ConfigProvider, MenuProps } from 'antd'
 import { Menu } from 'antd'
-import { menuConfig } from 'routes'
+import { items } from './menu'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -60,7 +60,7 @@ const Menus = () => {
       <Wrapper>
         <Menu
           mode="inline"
-          items={menuConfig}
+          items={items}
           style={{ height: '100%', userSelect: 'none', borderRight: 0 }}
           openKeys={openKeys}
           onSelect={handleSelect}

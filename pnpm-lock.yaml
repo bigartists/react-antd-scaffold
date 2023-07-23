@@ -60,8 +60,8 @@ dependencies:
     specifier: ^5.1.25
     version: 5.1.26
   '@types/uuid':
-    specifier: ^8.3.4
-    version: 8.3.4
+    specifier: ^9.0.2
+    version: 9.0.2
   ahooks:
     specifier: ^3.7.8
     version: 3.7.8(react@18.2.0)
@@ -144,7 +144,7 @@ dependencies:
     specifier: ^3.0.4
     version: 3.0.5(react-dom@18.2.0)(react@18.2.0)
   react-router-dom:
-    specifier: ^6.4.2
+    specifier: ^6.14.2
     version: 6.14.2(react-dom@18.2.0)(react@18.2.0)
   react-scripts:
     specifier: ^5.0.1
@@ -180,8 +180,8 @@ dependencies:
     specifier: ^1.10.0
     version: 1.10.0
   uuid:
-    specifier: ^8.3.2
-    version: 8.3.2
+    specifier: ^9.0.0
+    version: 9.0.0
   validate-commit-msg:
     specifier: ^2.14.0
     version: 2.14.0
@@ -4241,8 +4241,8 @@ packages:
     resolution: {integrity: sha512-cputDpIbFgLUaGQn6Vqg3/YsJwxUwHLO13v3i5ouxT4lat0khip9AEWxtERujXV9wxIB1EyF97BSJFt6vpdI8g==}
     dev: false
 
-  /@types/uuid@8.3.4:
-    resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
+  /@types/uuid@9.0.2:
+    resolution: {integrity: sha512-kNnC1GFBLuhImSnV7w4njQkUiJi0ZXUycu1rUaouPqiKlXkh77JKgdRnTAp1x5eBwcIwbtI+3otwzuIDEuDoxQ==}
     dev: false
 
   /@types/ws@8.5.5:
@@ -15507,6 +15507,11 @@ packages:
   /uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
     hasBin: true
+
+  /uuid@9.0.0:
+    resolution: {integrity: sha512-MXcSTerfPa4uqyzStbRoTgt5XIe3x5+42+q1sDuy3R5MDk66URdLMOZe5aPX/SQd+kuYAh0FdP/pO28IkQyTeg==}
+    hasBin: true
+    dev: false
 
   /uvu@0.5.6:
     resolution: {integrity: sha512-+g8ENReyr8YsOc6fv/NVJs2vFdHBnBNdfE49rshrTzDWOlUx4Gq7KOS2GD8eqhy2j+Ejq29+SbKH8yjkAqXqoA==}

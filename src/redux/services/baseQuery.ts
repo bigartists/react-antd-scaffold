@@ -30,7 +30,6 @@ export const fetchWithIntercept: BaseQueryFn<
     return { error: '服务器错误' }
   }
 
-  // 正确的时候，根据各自后端约定来写的
   if (Object.is(data?.status, 0)) {
     return { data: data?.result, meta }
   }

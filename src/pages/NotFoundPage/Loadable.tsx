@@ -4,7 +4,7 @@
 
 import { LoadingOutlined } from '@ant-design/icons'
 import React from 'react'
-import { lazyLoad } from 'utils/loadable'
+import { lazyLoad } from 'routes/loadable'
 
 export const NotFoundPage = lazyLoad(
   () => import(/* webpackChunkName: "NotFoundPage" */ './index'),

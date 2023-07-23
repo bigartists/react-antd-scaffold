@@ -12,9 +12,7 @@ interface IBreadcrumb {
 
 export const IMAGEHUB = 'imageHub'
 export const IMAGEMANAGE = 'imageManage'
-
 export const breadcrumbsRegister = tuple(IMAGEHUB, IMAGEMANAGE)
-
 export type oneOfbreadcrumbsRegister = typeof breadcrumbsRegister[number]
 type IBreadcrumbs = {
   [k in oneOfbreadcrumbsRegister]: IBreadcrumb
