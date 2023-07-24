@@ -19,7 +19,7 @@
 .env.production.local
 .vscode
 .idea/
-.proxyIPConfig.js
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
