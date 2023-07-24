@@ -1,6 +1,6 @@
 import { ConfigProvider, MenuProps } from 'antd'
 import { Menu } from 'antd'
-import { menuConfig } from 'routes'
+import { items } from './menu'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
@@ -9,6 +9,7 @@ import { BLUE } from 'assets/styles/styledcom/StyleConstants'
 const Menus = () => {
   const location = useLocation()
   const navigate = useNavigate()
+
   const [selectedKeys, setSelectedKeys] = useState<string[]>([])
   const [openKeys, setOpenKeys] = useState<string[]>([])
 
@@ -59,8 +60,8 @@ const Menus = () => {
       <Wrapper>
         <Menu
           mode="inline"
-          items={menuConfig}
-          style={{ height: '100%', userSelect: 'none' }}
+          items={items}
+          style={{ height: '100%', userSelect: 'none', borderRight: 0 }}
           openKeys={openKeys}
           onSelect={handleSelect}
           onOpenChange={onOpenChange}
@@ -73,28 +74,21 @@ const Menus = () => {
 
 const Wrapper = styled.div`
   .ant-menu {
-    background-color: #fff;
-    border-right: 1px solid #f0f0f0;
+    /* border-right: 1px solid #f0f0f0; */
     .ant-menu-item {
       border-radius: 3px;
       font-size: 14px;
       &:not(.ant-menu-item-selected):hover {
-        color: rgb(0, 82, 217);
-        background-color: rgb(242, 243, 255);
+        color: ${BLUE};
       }
       &.ant-menu-item-active {
-        color: rgb(0, 82, 217);
-        background-color: rgb(242, 243, 255);
+        color: ${BLUE};
       }
 
       &.ant-menu-item-selected {
-        /* background-color: rgb(0, 82, 217); */
         background-color: ${BLUE};
         color: #fff;
       }
-    }
-    .ant-menu-sub.ant-menu-inline {
-      background-color: #fff;
     }
   }
 `

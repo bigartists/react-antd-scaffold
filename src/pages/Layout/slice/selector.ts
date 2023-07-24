@@ -10,17 +10,9 @@ export const selectCollapsed = createSelector(
   state => state.collapsed,
 )
 
-export const selectStorage = createSelector(
-  [selectDomain],
-  state => state.storageMap,
-)
-
-export const selectRouteMeta = createSelector(
-  [selectDomain],
-  state => state.routeMeta,
-)
-
 export const selectUsername = createSelector(
   [selectDomain],
   state => state.username,
 )
+
+export const selectTheme = createSelector([selectDomain], state => state.theme)

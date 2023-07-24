@@ -1,11 +1,9 @@
-import { IRouterMeta } from 'routes/config'
-
 export interface UserState {
   username: string
+  isLogin?: boolean
   loginLoading: boolean
   collapsed: boolean
-  storageMap: Object
-  routeMeta: IRouterMeta
+  theme: 'light' | 'dark'
 }
 
 export interface User {
@@ -14,9 +12,6 @@ export interface User {
 }
 
 export interface LoginParams {
-  params: {
-    username: string
-    password: string
-  }
-  resolve: () => void
+  username: string
+  password: string
 }

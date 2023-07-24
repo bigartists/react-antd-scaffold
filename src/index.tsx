@@ -1,10 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { ConfigProvider, theme } from 'antd'
-import zhCN from 'antd/es/locale/zh_CN'
 import App from 'pages/App'
 import appCombineReducers from 'redux/reducer'
-import { HashRouter as Router } from 'react-router-dom'
+
 import { Inspector } from 'react-dev-inspector'
 import { HelmetProvider } from 'react-helmet-async'
 import { Provider } from 'react-redux'
@@ -28,21 +27,7 @@ root.render(
     <Provider store={store}>
       <HelmetProvider>
         <React.StrictMode>
-          <ConfigProvider
-            locale={zhCN}
-            theme={{
-              token: {
-                colorPrimary: '#1946b9',
-                fontSize: 14,
-                borderRadius: 4,
-              },
-              // algorithm: theme.darkAlgorithm,
-            }}
-          >
-            <Router>
-              <App />
-            </Router>
-          </ConfigProvider>
+          <App />
         </React.StrictMode>
       </HelmetProvider>
     </Provider>

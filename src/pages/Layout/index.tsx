@@ -1,26 +1,24 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback } from 'react'
 import { Outlet } from 'react-router-dom'
 import Menus from './Menus'
-import { Layout, theme } from 'antd'
-import { selectRouteMeta } from 'pages/Main/slice/selector'
+import { ConfigProvider, GlobalToken, Layout, Switch, theme } from 'antd'
+import { selectTheme } from 'pages/Layout/slice/selector'
 import styled from 'styled-components'
-import {
-  BLUE,
-  logo_text_color,
-  SPACE_TIMES,
-} from 'assets/styles/styledcom/StyleConstants'
+import { SPACE_TIMES } from 'assets/styles/styledcom/StyleConstants'
+
 import { useSelector, useDispatch } from 'react-redux'
-import { mainActions } from 'pages/Main/slice'
+import { mainActions } from 'pages/Layout/slice'
 import SiteHeader from 'components/Headers'
 import { selectCollapsed } from './slice/selector'
+import RequireAuth from './RequireAuth'
 const { Content, Sider } = Layout
-const { useToken } = theme
 
-export const MainPage: React.FC = () => {
-  const routeMeta = useSelector(selectRouteMeta)
-  const collapsed = useSelector(selectCollapsed)
+const AppLayout: React.FC = () => {
   const dispatch = useDispatch()
-  const token = useToken()
+  const { token } = theme.useToken()
+  const rootTheme = useSelector(selectTheme)
+  console.log('🚀 ~ file: index.tsx:19 ~ rootTheme:', rootTheme)
+  const collapsed = useSelector(selectCollapsed)
 
   const setCollapsed = useCallback(
     () => dispatch(mainActions.updateCollapsed()),
@@ -28,7 +26,7 @@ export const MainPage: React.FC = () => {
   )
 
   return (
-    <RootContainer collapsed={collapsed} token={token}>
+    <RootContainer collapsed={collapsed} token={token} rootTheme={rootTheme}>
       <SiteHeader />
       <div className="rootContainer">
         <Layout hasSider>
@@ -37,10 +35,7 @@ export const MainPage: React.FC = () => {
             width={200}
             className="sider"
             collapsible
-            // trigger={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            // trigger={collapsed ? <MenuFoldOutlined /> : SiderFooter}
             trigger={null}
-            // collapsedWidth={48}
             collapsedWidth={56}
             collapsed={collapsed}
             onCollapse={setCollapsed}
@@ -55,24 +50,34 @@ export const MainPage: React.FC = () => {
                 {!collapsed ? (
                   <div className="around wrapper">
                     <div
-                      className="iconfont tc-KingBI-shouqi cursor-pointer"
+                      className="iconfont tc-KingBI-shouqi cursor-pointer fold"
                       onClick={setCollapsed}
                     ></div>
-                    <div
-                      className="logo"
-                      style={{
-                        visibility: 'hidden',
+                    {/* <MenuFoldOutlined
+                        onClick={setCollapsed}
+                        className="fold"
+                      /> */}
+
+                    <Switch
+                      checkedChildren="明亮"
+                      unCheckedChildren="暗黑"
+                      onChange={e => {
+                        console.log(e)
+                        dispatch(mainActions.updateTheme(e ? 'light' : 'dark'))
                       }}
-                    >
-                      logo
-                    </div>
+                      defaultChecked
+                    />
                   </div>
                 ) : (
                   <div className="center wrapper ">
                     <div
-                      className="iconfont tc-KingBI-zhankai cursor-pointer"
+                      className="iconfont tc-KingBI-zhankai cursor-pointer fold"
                       onClick={setCollapsed}
                     ></div>
+                    {/* <MenuUnfoldOutlined
+                        onClick={setCollapsed}
+                        className="fold"
+                      /> */}
                   </div>
                 )}
               </div>
@@ -84,7 +89,7 @@ export const MainPage: React.FC = () => {
               id="app-container"
               className="site-layout-background"
               style={{
-                padding: routeMeta.layout === false ? 0 : 24,
+                padding: 24,
                 minHeight: 280,
                 overflowY: 'overlay' as any,
               }}
@@ -104,11 +109,22 @@ export const MainPage: React.FC = () => {
   )
 }
 
-export default MainPage
+export const LayoutPage = () => {
+  return (
+    <RequireAuth>
+      <AppLayout />
+    </RequireAuth>
+  )
+}
 
-const RootContainer = styled.div<{ collapsed: boolean; token: any }>`
+export default LayoutPage
+
+const RootContainer = styled.div<{
+  collapsed: boolean
+  token: GlobalToken
+  rootTheme: 'light' | 'dark'
+}>`
   .common_text_button {
-    color: ${props => props.token.token.colorPrimary}!important;
     cursor: pointer;
   }
   .rootContainer {
@@ -152,17 +168,14 @@ const RootContainer = styled.div<{ collapsed: boolean; token: any }>`
       line-height: ${SPACE_TIMES(11)};
       padding-left: ${SPACE_TIMES(4)};
       margin-bottom: ${SPACE_TIMES(2)};
-      color: ${BLUE};
+
       font-size: ${SPACE_TIMES(5)};
       cursor: pointer;
       justify-content: space-between;
       align-items: center;
       user-select: none;
-      a {
-        color: ${BLUE};
-      }
+
       .title {
-        color: ${logo_text_color};
         font-size: ${SPACE_TIMES(4.5)};
         margin-left: ${SPACE_TIMES(3)};
 
@@ -187,28 +200,17 @@ const RootContainer = styled.div<{ collapsed: boolean; token: any }>`
     .sideFooter {
       height: ${SPACE_TIMES(13)};
       overflow: hidden;
-      border-top: 1px solid rgb(242, 243, 255);
+      border-top: 0.5px solid ${props => props.token.colorBorder};
+      /* border-top: 1px solid ${props => props.token.controlTmpOutline}; */
       /* background: linear-gradient(
         to right,
         rgb(242, 243, 255),
         rgb(0, 82, 217, 0.2)
       ); */
-
       .wrapper {
         display: flex;
         height: 100%;
         align-items: center;
-        .logo {
-          perspective: 1000px;
-          img {
-            position: relative;
-            top: 16px;
-            right: -12px;
-            filter: blur(4px);
-            transform: skewY(15deg);
-            height: 78px;
-          }
-        }
       }
 
       .around {
@@ -217,6 +219,11 @@ const RootContainer = styled.div<{ collapsed: boolean; token: any }>`
       .center {
         justify-content: center;
       }
+    }
+
+    .fold {
+      font-size: 16px;
+      color: ${props => props.token.colorText};
     }
   }
 `

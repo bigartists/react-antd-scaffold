@@ -7,3 +7,4 @@
 declare module '*.css'
 declare module '*.less'
 declare module '*.mp4'
+declare module 'react-copy-to-clipboard'

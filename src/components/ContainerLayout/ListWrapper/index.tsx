@@ -1,7 +1,7 @@
-import { Pagination } from 'antd'
-import type { PaginationProps } from 'antd'
-import { SPACE_TIMES, WHITE } from 'assets/styles/styledcom/StyleConstants'
-import { selectCollapsed } from 'pages/Main/slice/selector'
+import { Pagination, theme } from 'antd'
+import type { GlobalToken, PaginationProps } from 'antd'
+import { SPACE_TIMES } from 'assets/styles/styledcom/StyleConstants'
+import { selectCollapsed, selectTheme } from 'pages/Layout/slice/selector'
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -26,6 +26,8 @@ function ContainerListWrapper({
   onPagaSizeChange,
 }: IContainerListWrapper) {
   const collapsed = useSelector(selectCollapsed)
+  const { token } = theme.useToken()
+  const rootTheme = useSelector(selectTheme)
 
   useEffect(() => {
     if (onPageChange && pagination) {
@@ -40,7 +42,7 @@ function ContainerListWrapper({
   }, [onPageChange, pagination])
 
   return (
-    <Wrapper collapsed={collapsed}>
+    <Wrapper collapsed={collapsed} token={token} rootTheme={rootTheme}>
       {children}
       {!hasNoFooter && (
         <>
@@ -72,7 +74,6 @@ export const WrapperPagination = React.memo(
         className="w-full h-full flex items-center justify-between"
         style={{
           minWidth: '980px',
-          // backgroundColor: '#fff',
         }}
       >
         <div className="showTotal">
@@ -86,13 +87,15 @@ export const WrapperPagination = React.memo(
 
 interface IFooter {
   collapsed: boolean
+  token: GlobalToken
+  rootTheme: 'light' | 'dark'
 }
 
 const Wrapper = styled.div<IFooter>`
   .tool {
     display: flex;
     justify-content: end;
-    background-color: ${WHITE};
+    background-color: ${props => props.token?.colorBgContainer};
     height: ${SPACE_TIMES(12)};
     line-height: ${SPACE_TIMES(12)};
     padding-right: ${SPACE_TIMES(6)};
@@ -100,7 +103,7 @@ const Wrapper = styled.div<IFooter>`
 
   .toolbar {
     padding: 8px 24px 8px 10px;
-    background-color: ${WHITE};
+    background-color: ${props => props.token?.colorBgContainer};
     display: flex;
     justify-content: space-between;
 
@@ -117,14 +120,13 @@ const Wrapper = styled.div<IFooter>`
 
   footer {
     display: flex;
-    // justify-content: space-between;
-    // align-items: center;
-    background: ${WHITE};
-    background: linear-gradient(
-      to right,
-      rgba(255, 255, 255, 0.65),
-      rgb(242, 243, 255)
-    );
+    background-color: ${props => props.token?.colorBgContainer};
+
+    background: ${props =>
+      props.rootTheme === 'light'
+        ? 'linear-gradient(to right, rgba(255, 255, 255, 0.65),    rgb(242, 243, 255))'
+        : 'linear-gradient(to right, rgba(0, 0, 0, 0.65), rgb(0, 0, 0))'};
+
     width: ${props =>
       props.collapsed ? 'calc(100% - 104px)' : 'calc(100% - 248px)'};
     position: fixed;
@@ -133,12 +135,8 @@ const Wrapper = styled.div<IFooter>`
     bottom: 0;
     z-index: 1;
     padding: 0 24px;
-
     box-shadow: 0px -8px 12px rgba(25, 70, 185, 0.1);
     transition: width 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
-    .showTotal {
-      color: #666666;
-    }
   }
 `
 

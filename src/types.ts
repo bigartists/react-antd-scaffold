@@ -1,4 +1,4 @@
-import { UserState } from 'pages/Main/slice/types'
+import { UserState } from 'pages/Layout/slice/types'
 import { CSSProp } from 'styled-components'
 declare module 'react' {
   interface DOMAttributes<T> {
@@ -42,5 +42,3 @@ export const CommonFormTitle = {
   [CommonFormTypes.Update]: '修改',
   [CommonFormTypes.Retrieve]: '查看',
 }
-
-// 体验-Trial，数据工程师-DataEngineer，Common-普通用户，Vip-高级用户，Admin-管理员
