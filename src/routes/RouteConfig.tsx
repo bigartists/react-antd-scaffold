@@ -21,10 +21,10 @@ export const routerList = createBrowserRouter([
           }
         },
       },
-      {
-        path: '*',
-        Component: NotFoundPage,
-      },
     ],
+  },
+  {
+    path: '*',
+    Component: NotFoundPage,
   },
 ])
