@@ -125,7 +125,7 @@ module.exports = {
   },
   devServer: {
     hot: true,
-    // proxy: proxyConf('dev'),
+    proxy: proxyConf('mock'),
     historyApiFallback: {
       rewrites: [{ from: /^\/$/, to: '/index.html' }],
     },
