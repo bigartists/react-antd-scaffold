@@ -16,14 +16,27 @@ export const login = createAsyncThunk<any, LoginParams>(
   'app/login',
   async data => {
     try {
-      const { result } = await request<User>({
+      const { result } = await request<any, any>({
         url: '/login',
         method: 'POST',
         data,
       })
+
+      console.log('🚀 ~ file: thunk.ts:24 ~ result:', result)
       const username = get(result, 'username', '')
       setLocal(USERNAME, username)
       return result
+
+      // return request<User>({
+      //   url: '/login',
+      //   method: 'POST',
+      //   data,
+      // }).then(result => {
+      //   console.log('🚀 ~ file: thunk.ts:24 ~ result:', result)
+      //   const username = get(result, 'username', '')
+      //   setLocal(USERNAME, username)
+      //   return result
+      // })
     } catch (error) {
       errorHandle(error)
       throw error

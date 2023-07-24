@@ -1,15 +1,15 @@
-import { message } from 'antd'
-import axios, { AxiosRequestConfig } from 'axios'
+import { message } from 'pages/App'
+import axios, { AxiosRequestConfig, AxiosInstance } from 'axios'
 import { APIResponse } from 'types'
 const baseURL = '/api/v1'
-const instance = axios.create({
+export const request = axios.create({
   baseURL,
   validateStatus(status) {
     return status < 400 // 约束http status<400 的进入resolved
   },
 })
 
-instance.interceptors.request.use(
+request.interceptors.request.use(
   function (config) {
     const { userInfo } = {
       userInfo: {
@@ -30,9 +30,10 @@ instance.interceptors.request.use(
 )
 
 // 添加响应拦截器
-instance.interceptors.response.use(
+request.interceptors.response.use(
   function (response) {
-    if (response.data?.status !== 1) {
+    console.log('response =>', response)
+    if (response?.data?.status !== 1) {
       if (response.data?.message === '登录过期') {
         // 调用logout方法
         //  logout()
@@ -43,7 +44,7 @@ instance.interceptors.response.use(
       return Promise.reject(errMessage)
     }
 
-    return Promise.resolve(response.data)
+    return response?.data
   },
   function (error) {
     console.log('response error =>', error)
@@ -58,12 +59,3 @@ instance.interceptors.response.use(
     return Promise.reject(error)
   },
 )
-
-export function request<T>(
-  url: string | AxiosRequestConfig,
-  config?: AxiosRequestConfig,
-): Promise<APIResponse<T>> {
-  const axiosPromise =
-    typeof url === 'string' ? instance(url, config) : instance(url)
-  return axiosPromise.then(response => response.data as APIResponse<T>)
-}

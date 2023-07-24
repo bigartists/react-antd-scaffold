@@ -8,8 +8,7 @@ import {
   FetchBaseQueryMeta,
 } from '@reduxjs/toolkit/query/react'
 
-import { message } from 'antd'
-
+import { message } from 'pages/App'
 const baseQuery = fetchBaseQuery({
   baseUrl: '',
 })
