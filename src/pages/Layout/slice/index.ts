@@ -30,6 +30,7 @@ const mainSlice = createSlice({
       state.loginLoading = true
     })
     builder.addCase(login.fulfilled, (state, action) => {
+      console.log('🚀 ~ file: index.ts:33 ~ builder.addCase ~ action:', action)
       state.loginLoading = false
       state.username = action.payload.username
     })

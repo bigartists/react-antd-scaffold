@@ -2,10 +2,12 @@ import { createBrowserRouter } from 'react-router-dom'
 import LayoutLazyPage from 'pages/Layout/Loadable'
 import CustomizeLazyPage from 'pages/Customize/Loadable'
 import NotFoundPage from 'pages/NotFoundPage'
+import SignInLazyPage from 'pages/Login/Signin/Loadable'
+import { SignInloader } from 'pages/Login/Signin'
 export const routerList = createBrowserRouter([
   {
+    id: 'root',
     path: '/',
-    Component: LayoutLazyPage,
     async lazy() {
       return {
         Component: LayoutLazyPage,
@@ -14,6 +16,13 @@ export const routerList = createBrowserRouter([
     children: [
       {
         index: true,
+        async lazy() {
+          return {
+            Component: CustomizeLazyPage,
+          }
+        },
+      },
+      {
         path: 'pipeline',
         async lazy() {
           return {
@@ -22,6 +31,15 @@ export const routerList = createBrowserRouter([
         },
       },
     ],
+  },
+  {
+    path: 'login',
+    async lazy() {
+      return {
+        Component: SignInLazyPage,
+      }
+    },
+    loader: SignInloader,
   },
   {
     path: '*',

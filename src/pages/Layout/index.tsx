@@ -10,9 +10,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import { mainActions } from 'pages/Layout/slice'
 import SiteHeader from 'components/Headers'
 import { selectCollapsed } from './slice/selector'
+import RequireAuth from './RequireAuth'
 const { Content, Sider } = Layout
 
-export const LayoutPage: React.FC = () => {
+const AppLayout: React.FC = () => {
   const dispatch = useDispatch()
   const { token } = theme.useToken()
   const rootTheme = useSelector(selectTheme)
@@ -105,6 +106,14 @@ export const LayoutPage: React.FC = () => {
         </Layout>
       </div>
     </RootContainer>
+  )
+}
+
+export const LayoutPage = () => {
+  return (
+    <RequireAuth>
+      <AppLayout />
+    </RequireAuth>
   )
 }
 
