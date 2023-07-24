@@ -1,4 +1,4 @@
-import { message } from 'antd'
+import { message } from 'pages/App'
 import { AxiosError } from 'axios'
 // export { default as uuidv4 } from 'uuid/dist/umd/uuidv4.min'
 

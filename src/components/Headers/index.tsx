@@ -5,11 +5,15 @@ import { DownOutlined } from '@ant-design/icons'
 import { Link, useNavigate } from 'react-router-dom'
 import { SPACE_TIMES } from 'assets/styles/styledcom/StyleConstants'
 import { selectTheme, selectUsername } from 'pages/Layout/slice/selector'
+import { getLocal } from 'utils/storageManage'
+import { USERNAME } from 'pages/Layout/slice/thunk'
 const docLink = `https://github.com/mozhehanghui/react-antd-scaffold`
 
 export default () => {
   const navigate = useNavigate()
-  const username = useSelector(selectUsername)
+  // const username = useSelector(selectUsername)
+  const username = getLocal(USERNAME) as string
+  console.log('🚀 ~ file: index.tsx:16 ~ username:', username)
   const { token } = theme.useToken()
   const rootTheme = useSelector(selectTheme)
 
