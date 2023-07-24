@@ -1,5 +1,6 @@
 export interface UserState {
   username: string
+  isLogin?: boolean
   loginLoading: boolean
   collapsed: boolean
   theme: 'light' | 'dark'
@@ -11,9 +12,6 @@ export interface User {
 }
 
 export interface LoginParams {
-  params: {
-    username: string
-    password: string
-  }
-  resolve: () => void
+  username: string
+  password: string
 }
