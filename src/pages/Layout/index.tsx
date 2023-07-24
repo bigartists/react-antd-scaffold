@@ -5,20 +5,19 @@ import { ConfigProvider, GlobalToken, Layout, Switch, theme } from 'antd'
 import { selectTheme } from 'pages/Layout/slice/selector'
 import styled from 'styled-components'
 import { SPACE_TIMES } from 'assets/styles/styledcom/StyleConstants'
-import zhCN from 'antd/es/locale/zh_CN'
+
 import { useSelector, useDispatch } from 'react-redux'
 import { mainActions } from 'pages/Layout/slice'
 import SiteHeader from 'components/Headers'
 import { selectCollapsed } from './slice/selector'
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons'
 const { Content, Sider } = Layout
-const { useToken } = theme
 
-export const MainPage: React.FC = () => {
-  const collapsed = useSelector(selectCollapsed)
-  const rootTheme = useSelector(selectTheme)
+export const LayoutPage: React.FC = () => {
   const dispatch = useDispatch()
   const { token } = theme.useToken()
+  const rootTheme = useSelector(selectTheme)
+  console.log('🚀 ~ file: index.tsx:19 ~ rootTheme:', rootTheme)
+  const collapsed = useSelector(selectCollapsed)
 
   const setCollapsed = useCallback(
     () => dispatch(mainActions.updateCollapsed()),
@@ -26,105 +25,90 @@ export const MainPage: React.FC = () => {
   )
 
   return (
-    <ConfigProvider
-      locale={zhCN}
-      theme={{
-        token: {
-          colorPrimary: '#1946b9',
-          fontSize: 14,
-          borderRadius: 4,
-        },
-        algorithm:
-          rootTheme === 'light' ? theme.defaultAlgorithm : theme.darkAlgorithm,
-      }}
-    >
-      <RootContainer collapsed={collapsed} token={token} rootTheme={rootTheme}>
-        <SiteHeader />
-        <div className="rootContainer">
-          <Layout hasSider>
-            <Sider
-              theme="light"
-              width={200}
-              className="sider"
-              collapsible
-              trigger={null}
-              collapsedWidth={56}
-              collapsed={collapsed}
-              onCollapse={setCollapsed}
-            >
-              <div className="layoutSiderContent">
-                <div className="h60"></div>
-                <div className="menu">
-                  <Menus />
-                </div>
-
-                <div className="sideFooter">
-                  {!collapsed ? (
-                    <div className="around wrapper">
-                      <div
-                        className="iconfont tc-KingBI-shouqi cursor-pointer fold"
-                        onClick={setCollapsed}
-                      ></div>
-                      {/* <MenuFoldOutlined
-                        onClick={setCollapsed}
-                        className="fold"
-                      /> */}
-
-                      <Switch
-                        checkedChildren="明亮"
-                        unCheckedChildren="暗黑"
-                        onChange={e => {
-                          console.log(e)
-                          dispatch(
-                            mainActions.updateTheme(e ? 'light' : 'dark'),
-                          )
-                        }}
-                        defaultChecked
-                      />
-                    </div>
-                  ) : (
-                    <div className="center wrapper ">
-                      <div
-                        className="iconfont tc-KingBI-zhankai cursor-pointer fold"
-                        onClick={setCollapsed}
-                      ></div>
-                      {/* <MenuUnfoldOutlined
-                        onClick={setCollapsed}
-                        className="fold"
-                      /> */}
-                    </div>
-                  )}
-                </div>
+    <RootContainer collapsed={collapsed} token={token} rootTheme={rootTheme}>
+      <SiteHeader />
+      <div className="rootContainer">
+        <Layout hasSider>
+          <Sider
+            theme="light"
+            width={200}
+            className="sider"
+            collapsible
+            trigger={null}
+            collapsedWidth={56}
+            collapsed={collapsed}
+            onCollapse={setCollapsed}
+          >
+            <div className="layoutSiderContent">
+              <div className="h60"></div>
+              <div className="menu">
+                <Menus />
               </div>
-            </Sider>
-            <div className="anchor"></div>
-            <Layout className="mainContent">
-              <Content
-                id="app-container"
-                className="site-layout-background"
-                style={{
-                  padding: 24,
-                  minHeight: 280,
-                  overflowY: 'overlay' as any,
-                }}
+
+              <div className="sideFooter">
+                {!collapsed ? (
+                  <div className="around wrapper">
+                    <div
+                      className="iconfont tc-KingBI-shouqi cursor-pointer fold"
+                      onClick={setCollapsed}
+                    ></div>
+                    {/* <MenuFoldOutlined
+                        onClick={setCollapsed}
+                        className="fold"
+                      /> */}
+
+                    <Switch
+                      checkedChildren="明亮"
+                      unCheckedChildren="暗黑"
+                      onChange={e => {
+                        console.log(e)
+                        dispatch(mainActions.updateTheme(e ? 'light' : 'dark'))
+                      }}
+                      defaultChecked
+                    />
+                  </div>
+                ) : (
+                  <div className="center wrapper ">
+                    <div
+                      className="iconfont tc-KingBI-zhankai cursor-pointer fold"
+                      onClick={setCollapsed}
+                    ></div>
+                    {/* <MenuUnfoldOutlined
+                        onClick={setCollapsed}
+                        className="fold"
+                      /> */}
+                  </div>
+                )}
+              </div>
+            </div>
+          </Sider>
+          <div className="anchor"></div>
+          <Layout className="mainContent">
+            <Content
+              id="app-container"
+              className="site-layout-background"
+              style={{
+                padding: 24,
+                minHeight: 280,
+                overflowY: 'overlay' as any,
+              }}
+            >
+              <div className="h-[54px]"></div>
+              <div
+                className="w-full"
+                style={{ minHeight: 'calc(100% - 54px)', minWidth: '980px' }}
               >
-                <div className="h-[54px]"></div>
-                <div
-                  className="w-full"
-                  style={{ minHeight: 'calc(100% - 54px)', minWidth: '980px' }}
-                >
-                  <Outlet />
-                </div>
-              </Content>
-            </Layout>
+                <Outlet />
+              </div>
+            </Content>
           </Layout>
-        </div>
-      </RootContainer>
-    </ConfigProvider>
+        </Layout>
+      </div>
+    </RootContainer>
   )
 }
 
-export default MainPage
+export default LayoutPage
 
 const RootContainer = styled.div<{
   collapsed: boolean
@@ -230,10 +214,7 @@ const RootContainer = styled.div<{
 
     .fold {
       font-size: 16px;
-      color: ${props =>
-        props.rootTheme === 'light'
-          ? props.token.colorText
-          : props.token.colorBgBase};
+      color: ${props => props.token.colorText};
     }
   }
 `

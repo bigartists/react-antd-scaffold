@@ -6,7 +6,7 @@ import Task from './Task'
 import { GlobalToken } from 'antd'
 import styled from 'styled-components'
 
-const PipelineTask: React.FC = memo(props => {
+export const PipelineTask: React.FC = memo(props => {
   const { token } = theme.useToken()
   return (
     <Wrapper hasNoFooter>
