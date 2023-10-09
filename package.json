@@ -5,6 +5,8 @@
   "author": "ruanhan",
   "scripts": {
     "dev": "vite",
+    "app": "concurrently \"npm run start:mock\" \"npm run start\"",
+    "start:mock": "node server/mockServer.js",
     "serve": "vite preview",
     "start": "craco start",
     "build": "GENERATE_SOURCEMAP=false craco build",
@@ -37,6 +39,7 @@
     "axios": "^1.4.0",
     "babel-plugin-styled-components": "^2.0.7",
     "classnames": "^2.3.2",
+    "concurrently": "^8.2.1",
     "cross-env": "^7.0.3",
     "dayjs": "^1.11.6",
     "debounce-promise": "3.1.2",

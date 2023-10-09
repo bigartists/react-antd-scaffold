@@ -18,7 +18,7 @@ export default () => {
   const rootTheme = useSelector(selectTheme)
 
   const logout = () => {
-    navigate('/signin')
+    navigate('/login')
   }
 
   const items = [
